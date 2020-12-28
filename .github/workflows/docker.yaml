@@ -19,19 +19,15 @@ jobs:
       - name: Inject env vars
         run: |
           export DOCKER_TAG_LATEST=${DOCKER_ORG}/${DOCKER_REPO}:latest
-          export DOCKER_TAG_VERSION=${DOCKER_ORG}/${DOCKER_REPO}:${GITHUB_REF_SLUG//\//-}-${GITHUB_SHA:0:8}
+          export DOCKER_TAG_RELEASE=${DOCKER_ORG}/${DOCKER_REPO}:${GITHUB_REF_SLUG//\//-}-${GITHUB_SHA:0:8}
           echo "DOCKER_TAG_LATEST=${DOCKER_TAG_LATEST}" >> version
-          echo "DOCKER_TAG_VERSION=${DOCKER_TAG_VERSION}" >> version
-          version_list=("$(< version)")
-          echo "${version_list[@]}"
-          for item in "${version_list[@]}"; do
-            echo "$item" >> "$GITHUB_ENV"
-          done
+          echo "DOCKER_TAG_RELEASE=${DOCKER_TAG_RELEASE}" >> version
+          cat version >> "$GITHUB_ENV"
       - name: Build Docker Image
         run: |
-          docker build . --file Dockerfile --tag "${DOCKER_TAG_LATEST}" --tag "${DOCKER_TAG_VERSION}"
+          docker build --file Dockerfile --tag "${DOCKER_TAG_LATEST}" --tag "${DOCKER_TAG_RELEASE}" .
       # - name: Push to DockerHub
       #   run: |
       #     echo '${{ secrets.DOCKER_PASSWORD }}' | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
       #     docker push "${DOCKER_TAG_LATEST}" --all-tags
-      #     echo -e "\nPushed:\n${DOCKER_TAG_LATEST}\n${DOCKER_TAG_VERSION}"
+      #     echo -e "\nPushed:\n${DOCKER_TAG_LATEST}\n${DOCKER_TAG_RELEASE}"
