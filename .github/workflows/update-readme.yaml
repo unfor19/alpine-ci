@@ -11,9 +11,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: unfor19/replacer-action@v1.0.3
+      - name: Prepare source file
+        run: |
+          echo "```" > inject_version_file
+          echo version >> inject_version_file
+          echo "```" >> inject_version_file
         name: Update README.md file
         with:
-          src-file-path: "version"
+          src-file-path: "inject_version_file"
           dst-file-path: "README.md"
           start-value: "<!-- replacer_start -->"
           end-value: "<!-- replacer_end -->"
