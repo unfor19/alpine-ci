@@ -1,20 +1,16 @@
 ARG ALPINE_VERSION="3.12"
+
+FROM alpine:${ALPINE_VERSION}
+
+# Fetch build arguments
+ARG ALPINECI_VERSION=""
+ARG ALPINECI_VERSION_PATH="/opt/alpineci_version"
 ARG BASH_VERSION="5.0"
 ARG CURL_VERSION="7.69"
 ARG GIT_VERSION="2.26"
 ARG JQ_VERSION="1.6"
 ARG OPENSSH_VERSION="8.3"
 ARG ZIP_VERSION="3.0"
-
-FROM alpine:${ALPINE_VERSION}
-
-# Fetch build arguments
-ARG BASH_VERSION
-ARG CURL_VERSION
-ARG GIT_VERSION
-ARG JQ_VERSION
-ARG OPENSSH_VERSION
-ARG ZIP_VERSION
 
 RUN apk --update add \
   bash=~"${BASH_VERSION}" \
@@ -28,5 +24,7 @@ RUN apk --update add \
   && \
   rm -rf /var/lib/apt/lists/* && \
   rm /var/cache/apk/*
+
+COPY version "$ALPINECI_VERSION_PATH"
 
 ENTRYPOINT bash
