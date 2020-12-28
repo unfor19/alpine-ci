@@ -4,11 +4,13 @@
 
 Docker image of Linux alpine which includes the following packages
 
-- bash
-- curl
-- git
-- openssh
-- zip
+```
+
+<!-- replacer_start -->
+
+<!-- replacer_end -->
+
+```
 
 ## Included in alpine
 
