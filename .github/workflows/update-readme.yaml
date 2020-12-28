@@ -12,9 +12,9 @@ jobs:
       - uses: actions/checkout@v2
       - name: Prepare source file
         run: |
-          echo "\`\`\`" > inject_version_file
+          echo "```" > inject_version_file
           cat version >> inject_version_file
-          echo "\`\`\`" >> inject_version_file
+          echo "```" >> inject_version_file
       - name: Update README.md file
         uses: unfor19/replacer-action@v1.0.3
         with:
