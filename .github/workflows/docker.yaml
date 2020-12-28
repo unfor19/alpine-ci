@@ -22,7 +22,11 @@ jobs:
           export DOCKER_TAG_COMMIT=${DOCKER_ORG}/${DOCKER_REPO}:${GITHUB_REF_SLUG//\//-}-${GITHUB_SHA:0:8}
           echo "DOCKER_TAG_LATEST=${DOCKER_TAG_LATEST}" >> version
           echo "DOCKER_TAG_VERSION=${DOCKER_TAG_COMMIT}" >> version
-          ./scripts/inject_env_vars.sh
+          version_list=("$(< version)")
+          echo "${version_list[@]}"
+          for item in "${version_list[@]}"; do
+            echo "$item" >> "$GITHUB_ENV"
+          done
       - name: Build Docker Image
         run: |
           docker build . --file Dockerfile --tag "${DOCKER_TAG_LATEST}" --tag "${DOCKER_TAG_COMMIT}"
