@@ -8,7 +8,7 @@ Docker image of Linux alpine which includes the following packages
 
 <!-- replacer_start -->
 
-Replace this test
+Replacer action injects version file to this text block
 
 <!-- replacer_end -->
 
