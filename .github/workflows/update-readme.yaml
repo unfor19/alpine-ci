@@ -14,7 +14,7 @@ jobs:
         run: |
           sudo apt-get -y update && sudo apt-get install -y bsdmainutils
           echo "\`\`\`" > inject_version_file
-          cat version | column -s "=" -t >> inject_version_file
+          cat version | column -s "=" -t | sed 's/_VERSION//g' >> inject_version_file
           echo "\`\`\`" >> inject_version_file
       - name: Update README.md file
         uses: unfor19/replacer-action@v1.0.3
