@@ -7,13 +7,13 @@ Docker image of Linux alpine which includes the following packages
 <!-- replacer_start -->
 
 ```
-ALPINE   3.12
-BASH     5.0
-CURL     7.69
-GIT      2.26
-JQ       1.6
-OPENSSH  8.3
-ZIP      3.0
+alpine   3.12
+bash     5.0
+curl     7.69
+git      2.26
+jq       1.6
+openssh  8.3
+zip      3.0
 ```
 
 <!-- replacer_end -->
