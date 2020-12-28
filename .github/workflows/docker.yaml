@@ -12,6 +12,7 @@ jobs:
     env:
       DOCKER_ORG: unfor19
       DOCKER_REPO: alpine-ci
+      DOCKER_USERNAME: unfor19
       VERSION_FILE_PATH: /opt/alpineci_version
     steps:
       - uses: actions/checkout@v2
@@ -50,6 +51,6 @@ jobs:
           fi
       - name: Push to DockerHub
         run: |
-          echo '${{ secrets.DOCKER_PASSWORD }}' | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
+          echo '${{ secrets.DOCKER_PASSWORD }}' | docker login --username "$DOCKER_USERNAME" --password-stdin
           docker push --all-tags "${DOCKER_TAG_RELEASE}"
           echo -e "\nPushed:\n${DOCKER_TAG_LATEST}\n${DOCKER_TAG_RELEASE}"
