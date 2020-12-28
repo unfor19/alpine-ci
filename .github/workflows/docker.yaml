@@ -1,58 +1,57 @@
+name: Push latest release to DockerHub
 
-# name: Push latest release to DockerHub
+on:
+  push:
+    branches: [master]
+    paths-ignore:
+      - "README.md"
 
-# on:
-#   push:
-#     branches: [master]
-#     paths-ignore:
-#       - "README.md"
+env:
+  DOCKER_USERNAME: unfor19 # for authentication
+  DOCKER_ORG: unfor19
+  DOCKER_REPO: alpine-ci
+  VERSION_FILE_PATH: /opt/alpineci_version
 
-# env:
-#   DOCKER_USERNAME: unfor19 # for authentication
-#   DOCKER_ORG: unfor19
-#   DOCKER_REPO: alpine-ci
-#   VERSION_FILE_PATH: /opt/alpineci_version
-
-# jobs:
-#   dockerhub-latest:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v2
-#       - name: Inject slug/short variables
-#         uses: rlespinasse/github-slug-action@v3.x      
-#       - name: Inject env vars
-#         run: |
-#           export DOCKER_TAG_LATEST=${DOCKER_ORG}/${DOCKER_REPO}:latest
-#           export DOCKER_TAG_RELEASE=${DOCKER_ORG}/${DOCKER_REPO}:${GITHUB_REF_SLUG//\//-}-${GITHUB_SHA:0:8}
-#           echo "DOCKER_TAG_LATEST=${DOCKER_TAG_LATEST}" >> version
-#           echo "DOCKER_TAG_RELEASE=${DOCKER_TAG_RELEASE}" >> version
-#           cat version >> "$GITHUB_ENV"
-#       - name: Build Docker Image
-#         run: |
-#           declare -a build_args
-#           version_list=($(cat version))
-#           for item in "${version_list[@]}"; do
-#             if [[ -n "$item" && $item != *DOCKER_TAG_* ]]; then
-#               var_name=$(echo "$item" | cut -d'=' -f 1 )
-#               var_value=$(echo "$item" | cut -d'=' -f 2 )
-#             build_args+=("--build-arg ${var_name}=${var_value}")
-#             fi
-#           done
-#           build_args+=("--build-arg VERSION_FILE_PATH=${VERSION_FILE_PATH}")
-#           echo Build arguments: ${build_args[@]}
-#           docker build --file Dockerfile --tag "${DOCKER_TAG_LATEST}" --tag "${DOCKER_TAG_RELEASE}" ${build_args[@]} .
-#       - name: Test
-#         run: |
-#           version_list=($(docker run --rm  --entrypoint cat "$DOCKER_TAG_RELEASE" "$VERSION_FILE_PATH"))
-#           echo -e "Version file in Docker container:\n${version_list[@]}\n\nEnd of version_list"
-#           if [[ ${#version_list} -gt 1 ]]; then
-#             echo "Success"
-#           else
-#             echo "Fail"
-#             exit 1
-#           fi
-#       - name: Push to DockerHub
-#         run: |
-#           echo '${{ secrets.DOCKER_PASSWORD }}' | docker login --username "$DOCKER_USERNAME" --password-stdin
-#           docker push "$DOCKER_TAG_LATEST" && docker push "$DOCKER_TAG_RELEASE"
-#           echo -e "\nPushed:\n${DOCKER_TAG_LATEST}\n${DOCKER_TAG_RELEASE}"
+jobs:
+  dockerhub-latest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Inject slug/short variables
+        uses: rlespinasse/github-slug-action@v3.x      
+      - name: Inject env vars
+        run: |
+          export DOCKER_TAG_LATEST=${DOCKER_ORG}/${DOCKER_REPO}:latest
+          export DOCKER_TAG_RELEASE=${DOCKER_ORG}/${DOCKER_REPO}:${GITHUB_REF_SLUG//\//-}-${GITHUB_SHA:0:8}
+          echo "DOCKER_TAG_LATEST=${DOCKER_TAG_LATEST}" >> version
+          echo "DOCKER_TAG_RELEASE=${DOCKER_TAG_RELEASE}" >> version
+          cat version >> "$GITHUB_ENV"
+      - name: Build Docker Image
+        run: |
+          declare -a build_args
+          version_list=($(cat version))
+          for item in "${version_list[@]}"; do
+            if [[ -n "$item" && $item != *DOCKER_TAG_* ]]; then
+              var_name=$(echo "$item" | cut -d'=' -f 1 )
+              var_value=$(echo "$item" | cut -d'=' -f 2 )
+            build_args+=("--build-arg ${var_name}=${var_value}")
+            fi
+          done
+          build_args+=("--build-arg VERSION_FILE_PATH=${VERSION_FILE_PATH}")
+          echo Build arguments: ${build_args[@]}
+          docker build --file Dockerfile --tag "${DOCKER_TAG_LATEST}" --tag "${DOCKER_TAG_RELEASE}" ${build_args[@]} .
+      - name: Test
+        run: |
+          version_list=($(docker run --rm  --entrypoint cat "$DOCKER_TAG_RELEASE" "$VERSION_FILE_PATH"))
+          echo -e "Version file in Docker container:\n${version_list[@]}\n\nEnd of version_list"
+          if [[ ${#version_list} -gt 1 ]]; then
+            echo "Success"
+          else
+            echo "Fail"
+            exit 1
+          fi
+      - name: Push to DockerHub
+        run: |
+          echo '${{ secrets.DOCKER_PASSWORD }}' | docker login --username "$DOCKER_USERNAME" --password-stdin
+          docker push "$DOCKER_TAG_LATEST" && docker push "$DOCKER_TAG_RELEASE"
+          echo -e "\nPushed:\n${DOCKER_TAG_LATEST}\n${DOCKER_TAG_RELEASE}"
