@@ -39,6 +39,7 @@ jobs:
           echo Build arguments: ${build_args[@]}
           docker build --file Dockerfile --tag "${DOCKER_TAG_LATEST}" --tag "${DOCKER_TAG_RELEASE}" ${build_args[@]} .
       - name: Test
+        run: |
           version_list=($(docker run --rm  --entrypoint cat "$DOCKER_TAG_RELEASE" "$VERSION_FILE_PATH"))
           echo -e "Version file in Docker container:\n${version_list[@]}\n\nEnd of version_list"
           if [[ ${#version_list} -gt 1 ]]; then
