@@ -12,6 +12,7 @@ jobs:
     env:
       DOCKER_ORG: unfor19
       DOCKER_REPO: alpine-ci
+      VERSION_FILE_PATH: /opt/alpineci_version
     steps:
       - uses: actions/checkout@v2
       - name: Inject slug/short variables
@@ -34,10 +35,20 @@ jobs:
             build_args+=("--build-arg ${var_name}=${var_value}")
             fi
           done
+          build_args+=("--build-arg VERSION_FILE_PATH=${VERSION_FILE_PATH}")
           echo Build arguments: ${build_args[@]}
           docker build --file Dockerfile --tag "${DOCKER_TAG_LATEST}" --tag "${DOCKER_TAG_RELEASE}" ${build_args[@]} .
-      # - name: Push to DockerHub
-      #   run: |
-      #     echo '${{ secrets.DOCKER_PASSWORD }}' | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
-      #     docker push "${DOCKER_TAG_LATEST}" --all-tags
-      #     echo -e "\nPushed:\n${DOCKER_TAG_LATEST}\n${DOCKER_TAG_RELEASE}"
+      - name: Test
+          version_list=($(docker run --rm  --entrypoint cat "$DOCKER_TAG_RELEASE" "$VERSION_FILE_PATH"))
+          echo -e "Version file in Docker container:\n${version_list[@]}\n\nEnd of version_list"
+          if [[ ${#version_list} -gt 1 ]]; then
+            echo "Success"
+          else
+            echo "Fail"
+            exit 1
+          fi
+      - name: Push to DockerHub
+        run: |
+          echo '${{ secrets.DOCKER_PASSWORD }}' | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
+          docker push "${DOCKER_TAG_LATEST}" --all-tags
+          echo -e "\nPushed:\n${DOCKER_TAG_LATEST}\n${DOCKER_TAG_RELEASE}"
