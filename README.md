@@ -4,15 +4,11 @@
 
 Docker image of Linux alpine which includes the following packages
 
-```
-
 <!-- replacer_start -->
 
 Replacer action injects version file to this text block
 
 <!-- replacer_end -->
-
-```
 
 ## Included in alpine
 
