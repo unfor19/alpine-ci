@@ -28,7 +28,7 @@ jobs:
           declare -a build_args
           version_list=($(cat version))
           for item in "${version_list[@]}"; do
-            if [[ -n "$item" ]]; then
+            if [[ -n "$item" && $item != *DOCKER_TAG_* ]]; then
               var_name=$(echo "$item" | cut -d'=' -f 1 )
               var_value=$(echo "$item" | cut -d'=' -f 2 )
             build_args+=("--build-arg ${var_name}=${var_value}")
