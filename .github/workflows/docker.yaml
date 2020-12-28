@@ -25,7 +25,17 @@ jobs:
           cat version >> "$GITHUB_ENV"
       - name: Build Docker Image
         run: |
-          docker build --file Dockerfile --tag "${DOCKER_TAG_LATEST}" --tag "${DOCKER_TAG_RELEASE}" .
+          declare -a build_args
+          version_list=($(cat version))
+          for item in "${version_list[@]}"; do
+            if [[ -n "$item" ]]; then
+              var_name=$(echo "$item" | cut -d'=' -f 1 )
+              var_value=$(echo "$item" | cut -d'=' -f 2 )
+            build_args+=("--build-arg ${var_name}=${var_value}")
+            fi
+          done
+          echo Build arguments: ${build_args[@]}
+          docker build --file Dockerfile --tag "${DOCKER_TAG_LATEST}" --tag "${DOCKER_TAG_RELEASE}" ${build_args[@]} .
       # - name: Push to DockerHub
       #   run: |
       #     echo '${{ secrets.DOCKER_PASSWORD }}' | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
