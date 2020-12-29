@@ -21,9 +21,9 @@ zip      3.0
 
 ## Included in alpine
 
-- less
 - tar
 - wget
+- [alpine coreutils](https://pkgs.alpinelinux.org/contents?repo=main&page=1&arch=x86&branch=edge&name=coreutils)
 
 ## Usage
 
