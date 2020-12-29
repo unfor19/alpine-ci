@@ -1,6 +1,7 @@
 # alpine-ci
 
 [![Push latest release to DockerHub](https://github.com/unfor19/alpine-ci/workflows/Push%20latest%20release%20to%20DockerHub/badge.svg)](https://github.com/unfor19/alpine-ci/actions?query=workflow%3A%22Push+latest+release+to+DockerHub%22)
+[![DockerHub Pulls](https://img.shields.io/docker/pulls/unfor19/alpine-ci.svg)](https://hub.docker.com/r/unfor19/alpine-ci)
 
 Docker image of Linux alpine which includes the following packages
 
