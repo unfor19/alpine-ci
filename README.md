@@ -44,14 +44,15 @@ zip      3.0
 ARG ALPINECI_TAG
 FROM unfor19/alpine-ci:${ALPINECI_TAG} as base
 
-# Do your stuff ...
+# Do your "build" stuff ...
 WORKDIR /code/
-RUN curl -s https://catfact.ninja/fact | jq -r .fact > random_cat_fact.txt
+RUN curl -s https://catfact.ninja/fact | jq -r .fact > fact.txt
 
-FROM alpine:3.12 as app
+# Use Docker multi-stage
+FROM ubuntu:20.04 as app
 WORKDIR /app/
-COPY --from base /code/* /app/
-CMD cat random_cat_fact.txt
+COPY --from=base /code/* /app/
+CMD find -type f -name *.txt -exec cat {} \;
 ```
 
 - Build your image
