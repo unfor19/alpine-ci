@@ -22,8 +22,12 @@ zip      3.0
 ## Included in alpine
 
 - tar
+- unzip
 - wget
-- [alpine coreutils](https://pkgs.alpinelinux.org/contents?repo=main&page=1&arch=x86&branch=edge&name=coreutils)
+- Listing all built-in packages 
+  ```bash
+  docker run --entrypoint busybox --rm alpine:3.12 --list
+  ```
 
 ## Usage
 
@@ -69,7 +73,9 @@ CMD find -type f -name *.txt -exec cat {} \;
   ```bash
   IMAGE_NAME="catfact"
   docker run --rm "$IMAGE_NAME"
-  # Random output: Many cats cannot properly digest cow's milk. Milk and milk products give them diarrhea.
+  
+  # Random output:
+  # Many cats cannot properly digest cow's milk. Milk and milk products give them diarrhea.
   ```
 
 ## Tips
