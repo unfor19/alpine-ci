@@ -24,6 +24,52 @@ zip      3.0
 - tar
 - wget
 
+## Usage
+
+- Run the latest release
+
+  ```bash
+  docker run --rm -it unfor19/alpine-ci
+  ```
+
+- Run a specific release
+  ```bash
+  RELEASE_TAG="master-f92a0197"
+  docker run "unfor19/alpine-ci:${RELEASE_TAG}"
+  ```
+
+- Use as a base image in a Dockerfile
+
+```dockerfile
+ARG ALPINECI_TAG
+FROM unfor19/alpine-ci:${ALPINECI_TAG} as base
+
+# Do your stuff ...
+WORKDIR /code/
+RUN curl -s https://catfact.ninja/fact | jq -r .fact > random_cat_fact.txt
+
+FROM alpine:3.12 as app
+WORKDIR /app/
+COPY --from base /code/* /app/
+CMD cat random_cat_fact.txt
+```
+
+- Build your image
+
+  ```bash
+  ALPINECI_TAG="latest"
+  DOCKERFILE_PATH="Dockerfile.example"
+  IMAGE_NAME="catfact"
+  docker build --build-arg ALPINECI_TAG="$ALPINECI_TAG" -f "$DOCKERFILE_PATH" -t "$IMAGE_NAME" .
+  ```
+
+- Run a container of your image
+  ```bash
+  IMAGE_NAME="catfact"
+  docker run --rm "$IMAGE_NAME"
+  # Random output: Many cats cannot properly digest cow's milk. Milk and milk products give them diarrhea.
+  ```
+
 ## Tips
 
 ### When to use **ubuntu** instead of alpine?

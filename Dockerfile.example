@@ -1,0 +1,11 @@
+ARG ALPINECI_TAG
+FROM unfor19/alpine-ci:${ALPINECI_TAG} as base
+
+# Do your stuff ...
+WORKDIR /code/
+RUN curl -s https://catfact.ninja/fact | jq -r .fact > random_cat_fact.txt
+
+FROM ubuntu:20.04 as app
+WORKDIR /app/
+COPY --from=base /code/* /app/
+CMD cat random_cat_fact.txt
