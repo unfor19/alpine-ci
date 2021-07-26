@@ -10,7 +10,7 @@ Docker image of Linux alpine which includes the following packages
 ```
 alpine   3.12
 bash     5.0
-curl     7.77
+curl     7.78
 git      2.32
 jq       1.6
 openssh  8.3
