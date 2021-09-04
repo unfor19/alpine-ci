@@ -5,6 +5,7 @@ set -o pipefail
 _DOCKER_BUILD_TARGET="${1:-"$DOCKER_BUILD_TARGET"}"
 _DOCKER_BUILD_TARGET="${_DOCKER_BUILD_TARGET:-"alpine-ci"}"
 _DOCKER_TAG_LATEST="${DOCKER_TAG_LATEST:-"unfor19/alpine-ci:latest"}"
+_DOCKER_TAG_RELEASE="${DOCKER_TAG_RELEASE:-"unfor19/alpine-ci:latest-1a2b3c4d"}"
 _VERSION_FILE_PATH="${VERSION_FILE_PATH:-"version"}"
 _GIT_SHORT_COMMIT="${GIT_SHORT_COMMIT:-"$(git rev-parse --short HEAD)"}"
 _DOCKER_TAG_COMMIT="${DOCKER_TAG_COMMIT:-"unfor19/alpine-ci:${_GIT_SHORT_COMMIT}"}"
@@ -20,4 +21,4 @@ for item in "${version_list[@]}"; do
 done
 build_args+=("--build-arg VERSION_FILE_PATH=${_VERSION_FILE_PATH}")
 echo Build arguments: "${build_args[@]}"
-docker build --file Dockerfile --target "${_BUILD_TARGET}" --tag "${_DOCKER_TAG_LATEST}" --tag "${_DOCKER_TAG_COMMIT}" ${build_args[@]} .
+docker build --file Dockerfile --target "${_BUILD_TARGET}" --tag "${_DOCKER_TAG_LATEST}" --tag "${_DOCKER_TAG_RELEASE}" ${build_args[@]} .
