@@ -39,7 +39,7 @@ jobs:
         run: ci/build.sh ${{ matrix.DOCKER_BUILD_TARGET }}
       - name: Test
         run: |
-          version_list=($(docker run --rm  --entrypoint cat "$DOCKER_TAG_RELEASE" "$VERSION_FILE_PATH"))
+          version_list=($(docker run --rm  --entrypoint cat "$DOCKER_TAG_RELEASE" "$DOCKER_VERSION_FILE_PATH"))
           echo -e "Version file in Docker container:\n${version_list[@]}\n\nEnd of version_list"
           if [[ ${#version_list} -gt 1 ]]; then
             echo "Success"
