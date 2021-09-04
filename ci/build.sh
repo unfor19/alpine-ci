@@ -21,4 +21,11 @@ for item in "${version_list[@]}"; do
 done
 build_args+=("--build-arg VERSION_FILE_PATH=${_VERSION_FILE_PATH}")
 echo Build arguments: "${build_args[@]}"
-docker build --file Dockerfile --target "${_BUILD_TARGET}" --tag "${_DOCKER_TAG_LATEST}" --tag "${_DOCKER_TAG_RELEASE}" ${build_args[@]} .
+docker buildx build \
+    --cache-from type=local,src=/tmp/.buildx-cache \
+    --cache-to type=local,mode=max,dest=/tmp/.buildx-cache-new \
+    --file Dockerfile \
+    --output "type=image,push=false" \
+    --target "${_BUILD_TARGET}" \
+    --tag "${_DOCKER_TAG_LATEST}" \
+    --tag "${_DOCKER_TAG_RELEASE}" ${build_args[@]} .
