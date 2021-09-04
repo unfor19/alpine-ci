@@ -8,14 +8,15 @@ Docker image of Linux alpine which includes the following packages
 <!-- replacer_start -->
 
 ```
-alpine   3.14
-bash     5.1
-curl     7.78
-git      2.32
-jq       1.6
-openssh  8.6
-zip      3.0
-awscli   2.2.0
+alpine            3.14
+bash              5.1
+curl              7.78
+git               2.32
+jq                1.6
+openssh           8.6
+zip               3.0
+awscli            2.2.0
+docker_file_path  /opt/alpineci_version
 ```
 
 <!-- replacer_end -->
