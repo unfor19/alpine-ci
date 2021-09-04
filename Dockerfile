@@ -3,7 +3,7 @@ ARG ALPINE_VERSION="3.14"
 FROM alpine:${ALPINE_VERSION} as alpine-ci
 
 # Fetch build arguments
-ARG VERSION_FILE_PATH="/opt/alpineci_version"
+ARG DOCKER_VERSION_FILE_PATH="/opt/alpineci_version"
 ARG BASH_VERSION="5.0"
 ARG CURL_VERSION="7.69"
 ARG GIT_VERSION="2.26"
@@ -24,7 +24,7 @@ RUN apk --update add \
   rm -rf /var/lib/apt/lists/* && \
   rm /var/cache/apk/*
 
-COPY version "$VERSION_FILE_PATH"
+COPY version "$DOCKER_VERSION_FILE_PATH"
 
 ENTRYPOINT bash
 

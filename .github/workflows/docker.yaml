@@ -10,7 +10,7 @@ env:
   DOCKER_USERNAME: unfor19 # for authentication
   DOCKER_ORG: unfor19
   DOCKER_REPO: alpine-ci
-  VERSION_FILE_PATH: /opt/alpineci_version
+  DOCKER_VERSION_FILE_PATH: /opt/alpineci_version
 
 jobs:
   dockerhub-latest:
