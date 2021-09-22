@@ -31,13 +31,11 @@ ENTRYPOINT bash
 
 
 ### ----------------------------------
-### AWS CLI
+### AWS CLI Builder
 ### ----------------------------------
-ARG AWSCLI_VERSION="2.2.0"
-
 FROM python:3-alpine${ALPINE_VERSION} as awscli-builder
 
-ARG AWSCLI_VERSION
+ARG AWSCLI_VERSION="2.2.0"
 
 RUN apk add --no-cache \
   gcc \
@@ -74,12 +72,22 @@ RUN unzip dist/awscli-exe.zip && \
   ./aws/install --bin-dir /aws-cli-bin
 
 
+# AWS CLI
 FROM alpine-ci as awscli
 RUN apk --no-cache add groff
 COPY --from=awscli-builder /usr/local/aws-cli/ /usr/local/aws-cli/
 COPY --from=awscli-builder /aws-cli-bin/ /usr/local/bin/
 ENTRYPOINT [ "bash", "-c" ]
 
+
+# AWS CLI + Docker
+FROM awscli as awscli-docker
+ARG DOCKER_VERSION="20.10.7-r2"
+RUN apk --no-cache add docker="$DOCKER_VERSION"
+ENTRYPOINT [ "bash", "-c" ]
+
+
+# Dev
 FROM awscli as dev
 WORKDIR /src/
 ENTRYPOINT [ "bash" ]

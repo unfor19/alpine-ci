@@ -24,6 +24,9 @@ jobs:
           - DOCKERFILE_PATH: Dockerfile
             DOCKER_BUILD_TARGET: awscli
             DOCKER_TAG_ONLY: awscli-latest
+          - DOCKERFILE_PATH: Dockerfile
+            DOCKER_BUILD_TARGET: awscli-docker
+            DOCKER_TAG_ONLY: awscli-docker-latest        
     steps:
       - uses: actions/checkout@v2
       - name: Inject slug/short variables
