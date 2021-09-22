@@ -59,6 +59,7 @@ jobs:
           docker buildx build \
             $(cat version | sed 's~^~--build-arg ~g' | tr '\n' ' ' ) \
             --cache-from "type=local,src=/tmp/.buildx-cache" \
+            --cache-to "type=local,dest=/tmp/.buildx-cache-new" \
             --output "type=image,push=true" \
             --tag "$DOCKER_TAG_RELEASE" \
             --tag "$DOCKER_TAG_LATEST" \
