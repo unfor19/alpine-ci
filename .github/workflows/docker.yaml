@@ -26,7 +26,7 @@ jobs:
             DOCKER_TAG_ONLY: awscli-latest
           - DOCKERFILE_PATH: Dockerfile
             DOCKER_BUILD_TARGET: awscli-docker
-            DOCKER_TAG_ONLY: awscli-docker-latest        
+            DOCKER_TAG_ONLY: awscli-docker-latest     
     steps:
       - uses: actions/checkout@v2
       - name: Inject slug/short variables
@@ -63,6 +63,7 @@ jobs:
             --output "type=image,push=true" \
             --tag "$DOCKER_TAG_RELEASE" \
             --tag "$DOCKER_TAG_LATEST" \
+            --target "${{ matrix.DOCKER_BUILD_TARGET }}" \
             --file ./Dockerfile .
           echo -e "\nPushed:\n${DOCKER_TAG_LATEST}\n${DOCKER_TAG_RELEASE}"
       - name: Move cache
