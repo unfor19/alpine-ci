@@ -59,7 +59,7 @@ jobs:
       - name: Push to DockerHub
         run: |
           docker buildx build \
-            $(cat version | sed 's@^@--build-arg @g' | paste -s -d " ")
+            $(cat version | sed 's~^~--build-arg ~g' | tr '\n' ' ' ) \
             --cache-from "type=local,src=/tmp/.buildx-cache" \
             --output "type=image,push=true" \
             --tag "$DOCKER_TAG_RELEASE" \
