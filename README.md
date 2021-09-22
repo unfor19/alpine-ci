@@ -9,8 +9,10 @@ Docker image of Linux alpine which includes the following packages
 
 ```
 alpine            3.14
+awscli            2.2.0
 bash              5.1
 curl              7.78
+docker            20.10.7-r2
 git               2.32
 jq                1.6
 openssh           8.6
