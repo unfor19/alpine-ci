@@ -17,7 +17,8 @@ git               2.32
 jq                1.6
 openssh           8.6
 zip               3.0
-awscli            2.2.0
+awscli            2.4.13
+openssl           1.1.1
 docker_file_path  /opt/alpineci_version
 ```
 
