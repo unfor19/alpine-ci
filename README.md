@@ -12,7 +12,7 @@ alpine            3.14
 awscli            2.2.0
 bash              5.1
 curl              7.79
-docker            20.10.7-r2
+docker            20.10
 git               2.32
 jq                1.6
 openssh           8.6
