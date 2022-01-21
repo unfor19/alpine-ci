@@ -5,11 +5,12 @@ FROM alpine:${ALPINE_VERSION} as alpine-ci
 # Fetch build arguments
 ARG DOCKER_VERSION_FILE_PATH="/opt/alpineci_version"
 ARG BASH_VERSION="5.0"
-ARG CURL_VERSION="7.69"
-ARG GIT_VERSION="2.26"
+ARG CURL_VERSION="7.79"
+ARG GIT_VERSION="2.32"
 ARG JQ_VERSION="1.6"
-ARG OPENSSH_VERSION="8.3"
+ARG OPENSSH_VERSION="8.6"
 ARG ZIP_VERSION="3.0"
+ARG OPENSSL_VERSION="1.1.1"
 
 RUN apk --update add \
   bash=~"${BASH_VERSION}" \
@@ -17,6 +18,7 @@ RUN apk --update add \
   git=~"${GIT_VERSION}" \
   openssh=~"${OPENSSH_VERSION}" \
   zip=~"${ZIP_VERSION}" \
+  openssl=~"${OPENSSL_VERSION}" \
   && \
   wget -q -O jq "https://github.com/stedolan/jq/releases/download/jq-${JQ_VERSION}/jq-linux64" && \
   chmod +x jq && mv jq /usr/local/bin/jq \
@@ -33,9 +35,9 @@ ENTRYPOINT bash
 ### ----------------------------------
 ### AWS CLI Builder
 ### ----------------------------------
-FROM python:3-alpine${ALPINE_VERSION} as awscli-builder
+FROM python:3.8-alpine${ALPINE_VERSION} as awscli-builder
 
-ARG AWSCLI_VERSION="2.2.0"
+ARG AWSCLI_VERSION="2.4.13"
 
 RUN apk add --no-cache \
   gcc \
