@@ -84,8 +84,8 @@ ENTRYPOINT [ "bash", "-c" ]
 
 # AWS CLI + Docker
 FROM awscli as awscli-docker
-ARG DOCKER_VERSION="20.10.7-r2"
-RUN apk --no-cache add docker="$DOCKER_VERSION"
+ARG DOCKER_VERSION="20.10"
+RUN apk --no-cache add docker=~"$DOCKER_VERSION"
 ENTRYPOINT [ "bash", "-c" ]
 
 
