@@ -7,7 +7,7 @@ on:
       - "README.md"
 
 env:
-  DOCKER_USERNAME: unfor19 # for authentication
+  DOCKER_USERNAME: unfor19
   DOCKER_ORG: unfor19
   DOCKER_REPO: alpine-ci
   DOCKER_VERSION_FILE_PATH: /opt/alpineci_version
