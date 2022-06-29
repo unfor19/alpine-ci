@@ -4,7 +4,7 @@ FROM alpine:${ALPINE_VERSION} as alpine-ci
 
 # Fetch build arguments
 ARG DOCKER_VERSION_FILE_PATH="/opt/alpineci_version"
-ARG BASH_VERSION="5.0"
+ARG BASH_VERSION="5.1"
 ARG CURL_VERSION="7.79"
 ARG GIT_VERSION="2.32"
 ARG JQ_VERSION="1.6"
@@ -88,6 +88,9 @@ ARG DOCKER_VERSION="20.10"
 RUN apk --no-cache add docker=~"$DOCKER_VERSION"
 ENTRYPOINT [ "bash", "-c" ]
 
+# AWS CLI + Docker + Python
+FROM awscli-docker as docker-python
+RUN apk add --no-cache python3 py3-pip
 
 # Dev
 FROM awscli as dev
