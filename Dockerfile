@@ -19,6 +19,7 @@ RUN apk --update add \
   openssh=~"${OPENSSH_VERSION}" \
   zip=~"${ZIP_VERSION}" \
   openssl=~"${OPENSSL_VERSION}" \
+  make \
   && \
   wget -q -O jq "https://github.com/stedolan/jq/releases/download/jq-${JQ_VERSION}/jq-linux64" && \
   chmod +x jq && mv jq /usr/local/bin/jq \
