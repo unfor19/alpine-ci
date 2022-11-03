@@ -1,6 +1,7 @@
 ARG ALPINE_VERSION="3.14"
 
 FROM alpine:${ALPINE_VERSION} as alpine-ci
+WORKDIR /tmp/
 
 # Fetch build arguments
 ARG DOCKER_VERSION_FILE_PATH="/opt/alpineci_version"
